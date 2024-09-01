@@ -8,16 +8,31 @@ class PlaceDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Place Details'),
+        title: Text(favPlace.title),
       ),
-      body: Center(
-        child: Text(
-          favPlace.title,
-          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                color: Colors.white,
+      body: Stack(children: [
+            Image.file(
+                favPlace.image,
+                fit: BoxFit.cover,
+                width: double.infinity,
+                height: double.infinity,
+
               ),
-        ),
-      ),
+            
+
+      ],), 
+      // Center(
+      //   child: Column(
+      //     children: [
+      //       // Text(
+      //       //   favPlace.title,
+      //       //   style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+      //       //         color: Colors.white,
+      //       //       ),
+      //       // ),
+      //     ],
+      //   ),
+      // ),
     );
   }
 }

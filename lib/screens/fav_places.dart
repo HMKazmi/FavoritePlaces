@@ -5,7 +5,7 @@ import 'package:fav_places/screens/place_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-// List<FavPlace> favPlacesScreenList = [
+// List<FavPlace> favPlacesList = [
 //   FavPlace(title: "Place Title 1"),
 //   FavPlace(title: "Place Title 2")
 // ];
@@ -19,24 +19,24 @@ class FavPlacesScreen extends ConsumerStatefulWidget {
 class _FavPlacesScreenState extends ConsumerState<FavPlacesScreen> {
   @override
   Widget build(BuildContext context) {
-    final favPlacesScreenList = ref.watch(favPlacesProvider);
-    print(favPlacesScreenList);
+    final favPlacesList = ref.watch(favPlacesProvider);
+    print(favPlacesList);
     return Scaffold(
       appBar: AppBar(
         title: Text("Favorite Places"),
         actions: [
           IconButton(
               onPressed: () async {
-                final title = await Navigator.push(
+                final result = await Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => NewPlace(),
                   ),
                 );
-                if (title != "" && !(title==null)) {
+                if (result != ["", null] && result != [null, null]) {
                   setState(() {
-                    favPlacesScreenList.add(
-                      FavPlace(title: title),
+                    favPlacesList.add(
+                      FavPlace(title: result[0], image: result[1]),
                     );
                   });
                 }
@@ -44,43 +44,49 @@ class _FavPlacesScreenState extends ConsumerState<FavPlacesScreen> {
               icon: const Icon(Icons.add))
         ],
       ),
-      body: ListView.builder(
-        itemCount: favPlacesScreenList.length,
-        itemBuilder: (context, index) {
-          return Dismissible(
-            key: ValueKey(favPlacesScreenList[index]),
-            onDismissed: (direction) {
-              favPlacesScreenList.remove(favPlacesScreenList[index]);
-              // _removeItem(favPlacesScreenList[index]);
-            },
-            child: ListTile(
-onTap: (){
-  Navigator.push(
-    context,
-    MaterialPageRoute(
-      builder: (context) => PlaceDetailsScreen(favPlace: favPlacesScreenList[index],),
-      ),
-      );
-},
-              // leading: Container(
-              //   height: 15,
-              //   width: 15,
-              //     decoration: BoxDecoration(
-              //         color: Colors.lightBlue),
-              // ),
-              title: Text(
-                favPlacesScreenList[index].title,
-                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                      color: Colors.white,
+      body: Padding(
+        padding: const EdgeInsets.all(5.0),
+        child: ListView.builder(
+          itemCount: favPlacesList.length,
+          itemBuilder: (context, index) {
+            return Dismissible(
+              key: ValueKey(favPlacesList[index]),
+              onDismissed: (direction) {
+                favPlacesList.remove(favPlacesList[index]);
+                // _removeItem(favPlacesList[index]);
+              },
+              child: ListTile(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => PlaceDetailsScreen(
+                        favPlace: favPlacesList[index],
+                      ),
                     ),
+                  );
+                },
+                leading: Container(
+                  height: 30,
+                  width: 30,
+                  child: CircleAvatar(
+                    backgroundImage: FileImage(favPlacesList[index].image),
+                  ),
+                ),
+                title: Text(
+                  favPlacesList[index].title,
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        color: Colors.white,
+                      ),
+                ),
+                // trailing: Text(
+                //   favPlacesList[index].id,
+                //   style: const TextStyle(fontSize: 16, color: Colors.white),
+                // ),
               ),
-              // trailing: Text(
-              //   favPlacesScreenList[index].id,
-              //   style: const TextStyle(fontSize: 16, color: Colors.white),
-              // ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }
