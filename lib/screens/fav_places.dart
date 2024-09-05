@@ -33,10 +33,14 @@ class _FavPlacesScreenState extends ConsumerState<FavPlacesScreen> {
                     builder: (context) => NewPlace(),
                   ),
                 );
-                if (result != ["", null] && result != [null, null]) {
+                if (result!=null && result != ["", null] && result != [null, null]) {
                   setState(() {
                     favPlacesList.add(
-                      FavPlace(title: result[0], image: result[1]),
+                      FavPlace(
+                        title: result[0],
+                        image: result[1],
+                        location: result[2]
+                      ),
                     );
                   });
                 }
@@ -76,6 +80,12 @@ class _FavPlacesScreenState extends ConsumerState<FavPlacesScreen> {
                 title: Text(
                   favPlacesList[index].title,
                   style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        color: Colors.white,
+                      ),
+                ),
+                subtitle: Text(
+                  favPlacesList[index].location.address,
+                  style: Theme.of(context).textTheme.bodySmall !.copyWith(
                         color: Colors.white,
                       ),
                 ),
