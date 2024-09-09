@@ -18,7 +18,7 @@ class NewPlace extends StatelessWidget {
 
     String title = "";
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: Text('New Place'),
         ),
@@ -47,14 +47,15 @@ class NewPlace extends StatelessWidget {
                 const SizedBox(
                   height: 16,
                 ),
-                LocationInput(onSelectLocation:(selectedLocation) {
-                  _selectedLocation = selectedLocation;
-                },),
+                LocationInput(
+                  onSelectLocation: (selectedLocation) {
+                    _selectedLocation = selectedLocation;
+                  },
+                ),
                 TextButton.icon(
                   style: TextButton.styleFrom(
                     backgroundColor: Theme.of(context).colorScheme.onSecondary,
                     shape: RoundedRectangleBorder(
-                      
                       borderRadius: BorderRadius.circular(20),
                     ),
                   ),
@@ -62,7 +63,8 @@ class NewPlace extends StatelessWidget {
                     if (_selectedLocation == null) {
                       Navigator.of(context).pop();
                     }
-                    Navigator.of(context).pop([title, pickedImage, _selectedLocation!]);
+                    Navigator.of(context)
+                        .pop([title, pickedImage, _selectedLocation]);
                   },
                   label: const Text('Add Place'),
                   icon: const Icon(Icons.add),
